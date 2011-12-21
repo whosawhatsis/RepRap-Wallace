@@ -8,7 +8,7 @@ extruder_hole_spacing = 50; //doesn't work (yet)
 //motor vars
 motor_screw_spacing = 26; //26 for NEMA14, 31 for NEMA17
 motor_casing = 38; //38 for NEMA14, 45 for NEMA17
-motor_length = 28;
+motor_length = 29; //make this 4 or 5mm longer than actual so the motors aren't supporting the whole printer!
 
 //hardware
 threaded_rod_size = 6;
@@ -26,7 +26,7 @@ idler_pulley_width = 8;
 belt_height = 2;
 
 //breakout vars
-end_height = motor_length + smooth_rod_size / 2; 
+end_height = motor_length + 3; 
 x_rod_spacing = smooth_rod_size + pulley_size + belt_height * 2;
 yz_motor_distance = smooth_rod_size + bearing_size + small_screw_size;
 x_carriage_width = extruder_hole_spacing + small_screw_size * 3;
