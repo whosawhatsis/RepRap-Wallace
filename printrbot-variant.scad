@@ -34,7 +34,7 @@ x_carriage_width = extruder_hole_spacing + small_screw_size * 3;
 //Comment out all of the lines in the following section to render the assembled machine. Uncomment one of them to export that part for printing.
 
 //!base_end();
-//!for(b = [0:1]) mirror([0, b, 0]) for(a = [-1,1]) translate([a * bearing_size / 4, bearing_size - (bearing_size * 2/3) * a, 0]) rotate(90 + 90 * a) y_bearing_retainer();
+//!for(b = [0:1]) mirror([0, b, 0]) for(a = [-1,1]) translate([a * bearing_size / 4, bearing_size - (bearing_size * 2/3) * a, 0]) rotate(90 + 90 * a)!y_bearing_retainer();
 //!for(b = [0:1]) mirror([0, b, 0]) for(a = [-1,1]) translate([a * -7.5, 18 - 5 * a, 0]) rotate(180 + 90 * a) bed_mount();
 //!x_end(2);
 //!x_end(0);
@@ -52,7 +52,7 @@ x_carriage_width = extruder_hole_spacing + small_screw_size * 3;
 
 	translate([0, 0, -bearing_size]) rotate([0, 180, 0]) base_end();
 	for(end = [1, -1]) translate([0, end * motor_screw_spacing / 2 + 5, -bearing_size + bearing_size * sqrt(2) / 4]) rotate([-90, 0, 180]) y_bearing_retainer();
-	for(side = [0, 1]) mirror([0, side, 0]) translate([yz_motor_distance / 2 - bearing_size / 2, -motor_casing / 2 - smooth_rod_size * 2 - 10, -bearing_size + bearing_size * sqrt(2) / 4]) rotate([90, 0, 0]) bed_mount();
+	for(side = [0, 1]) mirror([0, side, 0]) translate([bearing_size / 2, -motor_casing / 2 - smooth_rod_size * 2 - 10, -bearing_size+smooth_rod_size / 2]) rotate([90, 0, 0]) bed_mount();
 	translate([-yz_motor_distance / 2 + smooth_rod_size - motor_casing / 4 - smooth_rod_size / 2, 0, 60 + (x_rod_spacing + 8 + smooth_rod_size) / 2]) rotate([0, 180, 0]) x_end(2);
 	translate([140, 0, 60 + (x_rod_spacing + 8 + smooth_rod_size) / 2]) rotate([0, 180, 0]) {
 		x_end(0);
@@ -70,7 +70,7 @@ x_carriage_width = extruder_hole_spacing + small_screw_size * 3;
 		rotate([0, 90, 0]) y_idler();
 		for(side = [1, -1]) translate([5, side * (motor_casing / 2 - smooth_rod_size / 2), idler_pulley_width + 1.5 + smooth_rod_size]) rotate([180, 0, 0]) idler_pulley_tesla893(true);
 	}
-	for(side = [0, 1]) mirror([0, side, 0]) translate([0, -motor_casing / 2 - smooth_rod_size * 2 - 10, -bearing_size - end_height + smooth_rod_size * 1.5]) rotate([90, 0, 0]) foot();
+	for(side = [0, 1]) mirror([0, side, 0]) translate([threaded_rod_size/2, -motor_casing / 2 - smooth_rod_size * 2 - 10, -bearing_size - end_height + smooth_rod_size * 1.5]) rotate([90, 0, 0]) foot();
 
 
 
@@ -314,20 +314,20 @@ module bed_mount() difference() {
 
 module y_bearing_retainer() intersection() {
 	difference() {
-		linear_extrude(height = 10, convexity = 5) difference() {
+		linear_extrude(height = small_screw_size*3, convexity = 5) difference() {
 			union() {
 				intersection() {
-					translate([-yz_motor_distance / 2 + bearing_size / 2, 0, 0]) circle(bearing_size / 2 + 4);
-					translate([-yz_motor_distance / 2 + bearing_size / 2 - bearing_size / 2 - 4, -bearing_size, 0]) square([bearing_size + 8, bearing_size]);
+					translate([-bearing_size / 2, 0, 0]) circle(bearing_size / 2 + 4);
+					translate([-bearing_size / 2 - bearing_size / 2 - 4, -bearing_size, 0]) square([bearing_size + 8, bearing_size]);
 				}
-				translate([-yz_motor_distance / 2 + bearing_size / 2 - bearing_size / 2 - 4, 0, 0]) square([bearing_size + 8, bearing_size * sqrt(2) / 4 - 1]);
+				translate([-bearing_size -4, 0, 0]) square([8 + bearing_size, bearing_size * sqrt(2) / 4 - 1]);
 				translate([0, bearing_size * sqrt(2) / 4 - 3, 0]) square([yz_motor_distance + motor_casing - motor_screw_spacing + 10, 4], center = true);
 			}
-			translate([-yz_motor_distance / 2 + bearing_size / 2, 0, 0]) circle(bearing_size / 2);
-			translate([-yz_motor_distance / 2 + bearing_size / 2 - bearing_size / 2, 0, 0]) square(bearing_size);
+			translate([-bearing_size / 2, 0, 0]) circle(bearing_size / 2);
+			translate([-bearing_size / 2 - bearing_size / 2, 0, 0]) square(bearing_size);
 		}
-		for(side = [1, -1]) translate([side * (yz_motor_distance + motor_casing - motor_screw_spacing) / 2, 0, 5]) rotate(90) rotate([90, 0, 90]) {
-			cylinder(r = 3 * 7/12, h = bearing_size, center = true, $fn = 6);
+		for(side = [1, -1]) translate([side * (yz_motor_distance + motor_casing - motor_screw_spacing) / 2, 0, small_screw_size * 1.5]) rotate(90) rotate([90, 0, 90]) {
+			cylinder(r = small_screw_size * 7/12, h = bearing_size, center = true, $fn = 6);
 			translate([0, 0, bearing_size * sqrt(2) / 4 - 5]) rotate([180, 0, 0]) cylinder(r = 3, h = bearing_size, $fn = 30);
 		}
 	}
@@ -345,11 +345,11 @@ module base_end() difference() {
 	for(end = [1, -1]) translate([end * (yz_motor_distance + motor_casing) / 2, 0, 3]) linear_extrude(height = end_height, convexity = 5) square(motor_casing, center = true);
 	for(side = [1, -1]) translate([0, side * (motor_casing / 2 + threaded_rod_size), threaded_rod_size / 2 + bearing_size / 2]) rotate([90, 180 / 8, 90]) {
 		cylinder(r = threaded_rod_size * 13/24, h = yz_motor_distance + motor_casing + 20, center = true, $fn = 8);
-		%translate([0, 0, -70]) cylinder(r = threaded_rod_size * 13/24, h = 200, center = true, $fn = 8);
+		translate([0, 0, -70]) cylinder(r = threaded_rod_size * 13/24, h = 200, center = true, $fn = 8);
 	}
 	translate([0, 0, end_height]) scale([1, 1, .5]) rotate([90, 0, 90]) cylinder(r = motor_casing / 2, h = yz_motor_distance + 20, center = true);
 	translate([yz_motor_distance / 2 - smooth_rod_size, 0, 0]) {
-		translate([0, 0, -3]) linear_extrude(height = end_height - motor_casing / 4, convexity = 5) {
+		translate([0, 0, -1]) linear_extrude(height = end_height, convexity = 5) {
 			rotate(180 / 8) circle(smooth_rod_size * 13/24, $fn = 8);
 			translate([0, -smooth_rod_size / 4, 0]) square([smooth_rod_size * .6, smooth_rod_size / 2]);
 		}
@@ -361,13 +361,14 @@ module base_end() difference() {
 			translate([0, 0, -smooth_rod_size / 2 - 8]) rotate([0, 180, 0]) cylinder(r = 3.5, h = yz_motor_distance + motor_casing, $fn = 6);
 		}
 	}
-	translate([-yz_motor_distance / 2 + bearing_size / 2, 0, -bearing_size * sqrt(2) / 4]) rotate([90, -45, 0]) {
+	translate([-bearing_size / 2, 0, -bearing_size/2 + smooth_rod_size/2]) rotate([90, 22.5, 0]) {
 		%cylinder(r = smooth_rod_size * 13/24, h = 100, center = true, $fn = 8);
-		for(side = [0, 1]) mirror([0, 0, side]) translate([0, 0, smooth_rod_size / 2 + 2]) {
-			cylinder(r = bearing_size / 2, h = bearing_length, center = false, $fn = 80);
-			cube([bearing_size / 2, bearing_size / 2, bearing_length]);
+		for(side = [0, 1]) mirror([0, 0, side]) translate([0, 0, smooth_rod_size / 2]) {
+			cylinder(r = bearing_size / 2, h = bearing_length, center = false, $fn = 8);
+			//cylinder(r = bearing_size * 13/24, h = bearing_length, center = true, $fn = 8);
+			//cube([bearing_size / 2, bearing_size / 2, bearing_length]);
 		}
 	}
-	translate([0, 0, end_height - smooth_rod_size * 1.5]) rotate([90, 180 / 8, 0]) cylinder(r = threaded_rod_size * 13/24, h = motor_casing + smooth_rod_size * 5, $fn = 8, center = true);
-	%translate([0, 0, end_height - smooth_rod_size * 1.5]) rotate([90, 180 / 8, 0]) cylinder(r = threaded_rod_size * 13/24, h = 100, $fn = 8, center = true);
+	translate([-threaded_rod_size/2, 0, end_height - smooth_rod_size * 1.5]) rotate([90, 180 / 8, 0]) cylinder(r = threaded_rod_size * 13/24, h = motor_casing + smooth_rod_size * 5, $fn = 8, center = true);
+	%translate([-threaded_rod_size/2, 0, end_height - smooth_rod_size * 1.5]) rotate([90, 180 / 8, 0]) cylinder(r = threaded_rod_size * 13/24, h = 100, $fn = 8, center = true);
 }
