@@ -42,7 +42,7 @@ x_carriage_width = extruder_hole_spacing + small_screw_size * 3;
 //!for(side = [-1,1]) translate([0, side * motor_screw_spacing / 2, 0]) leadscrew_coupler();
 //!y_idler();
 //!for(x = [1, -1]) for(y = [1, -1]) translate([x * (pulley_size / 2 + 3), y * (pulley_size / 2 + 3), 0]) idler_pulley();
-//!for(x = [1, -1]) for(y = [1, -1]) translate([x * (pulley_size / 2 + small_screw_size), y * (pulley_size / 2 + small_screw_size), 0]) idler_pulley_tesla893();
+//!for(x = [1, -1]) for(y = [1, -1]) translate([x * (pulley_size / 2 + small_screw_size), y * (pulley_size / 2 + small_screw_size), 0]) idler_pulley();
 //!for(x = [1, -1]) for(y = [1, -1]) translate([x * (pulley_size / 2 + small_screw_size), y * (pulley_size / 2 + small_screw_size), 0]) idler_pulley_cap();
 //!for(x = [1, -1]) for(y = [1, -1]) translate([x * (smooth_rod_size * 2.5 + 1), y * (smooth_rod_size * 2.5 + 1), 0]) foot();
 
@@ -56,7 +56,7 @@ x_carriage_width = extruder_hole_spacing + small_screw_size * 3;
 	translate([-yz_motor_distance / 2 + smooth_rod_size - motor_casing / 4 - smooth_rod_size / 2, 0, 60 + (x_rod_spacing + 8 + smooth_rod_size) / 2]) rotate([0, 180, 0]) x_end(2);
 	translate([140, 0, 60 + (x_rod_spacing + 8 + smooth_rod_size) / 2]) rotate([0, 180, 0]) {
 		x_end(0);
-		translate([0, 8 + smooth_rod_size, 0]) rotate([90, 0, 0]) translate([0, (x_rod_spacing + 8 + smooth_rod_size) / 2, smooth_rod_size / 2 - 2 - bearing_size / 2 - 4 - idler_pulley_width - 1.5]) idler_pulley_tesla893();
+		translate([0, 8 + smooth_rod_size, 0]) rotate([90, 0, 0]) translate([0, (x_rod_spacing + 8 + smooth_rod_size) / 2, smooth_rod_size / 2 - 2 - bearing_size / 2 - 4 - idler_pulley_width - 1.5]) idler_pulley();
 	}
 	translate([40, smooth_rod_size + bearing_size / 2 + 1 - smooth_rod_size / 2 + 2, 60]) {
 		rotate([90, 0, 90]) x_carriage();
@@ -68,7 +68,7 @@ x_carriage_width = extruder_hole_spacing + small_screw_size * 3;
 	translate([-yz_motor_distance / 2 - motor_casing / 2, 0, -bearing_size / 2]) leadscrew_coupler();
 	translate([60, 0, -bearing_size - threaded_rod_size / 2 - bearing_size / 2]) {
 		rotate([0, 90, 0]) y_idler();
-		for(side = [1, -1]) translate([5, side * (motor_casing / 2 - smooth_rod_size / 2), idler_pulley_width + 1.5 + smooth_rod_size]) rotate([180, 0, 0]) idler_pulley_tesla893(true);
+		for(side = [1, -1]) translate([5, side * (motor_casing / 2 - smooth_rod_size / 2), idler_pulley_width + 1.5 + smooth_rod_size]) rotate([180, 0, 0]) idler_pulley(true);
 	}
 	for(side = [0, 1]) mirror([0, side, 0]) translate([threaded_rod_size/2, -motor_casing / 2 - smooth_rod_size * 2 - 10, -bearing_size - end_height + smooth_rod_size * 1.5]) rotate([90, 0, 0]) foot();
 
@@ -104,19 +104,6 @@ module idler_pulley(double_bearing = true) difference() {
 		}
 	}
 	for(h = [-idler_pulley_width + 4, idler_pulley_width * 2 + 1 - 4]) rotate(180 / 8) translate([0, 0, (double_bearing) ? h:0]) cylinder(r = 10 * 13/24, h = idler_pulley_width * 2, center = true, $fn = 8);
-}
-
-module idler_pulley_tesla893(){
-	intersection() {
-		linear_extrude(height = idler_pulley_width + 1, convexity = 5) difference() {
-			circle(pulley_size / 2 + belt_height);
-			circle(small_screw_size * 13/24, $fn = 8);
-		}
-		union() {
-			translate([0, 0, idler_pulley_width / 2 + 1]) scale([1, 1, 1.25]) sphere(pulley_size / 2);
-			cylinder(r = pulley_size / 2 + belt_height +1, h = 1);
-		}
-	}
 }
 
 module idler_pulley_cap() difference() {
