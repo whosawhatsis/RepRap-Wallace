@@ -94,7 +94,7 @@ module y_idler() difference() {
 			square([smooth_rod_size * 2, motor_casing + smooth_rod_size * 2], center = true);
 			for(side = [1, -1]) translate([0, side * (motor_casing / 2 + smooth_rod_size), smooth_rod_size / 2 + bearing_size / 2]) rotate(180 / 8) circle(smooth_rod_size * 13/12, h = yz_motor_distance + motor_casing + 20, center = true, $fn = 8);
 		}
-		for(side = [1, -1]) translate([0, side * (motor_casing / 2 + smooth_rod_size), smooth_rod_size / 2 + bearing_size / 2]) rotate(180 / 8) circle(threaded_rod_size * 13/24, h = yz_motor_distance + motor_casing + 20, center = true, $fn = 8);
+		for(side = [1, -1]) translate([0, side * (motor_casing / 2 + smooth_rod_size), smooth_rod_size / 2 + bearing_size / 2]) rotate(180 / 8) circle(smooth_rod_size * 13/24, h = yz_motor_distance + motor_casing + 20, center = true, $fn = 8);
 
 	}
 	for(side = [1, -1]) translate([-3, side * (motor_casing / 2 - smooth_rod_size / 2), 5]) rotate([90, 0, 90]) {
