@@ -1,14 +1,14 @@
-yz_motor_distance = 25;
-end_height = 40; //what is this?
 bed_mount_height = 16; 
-//x_rod_spacing = motor_screw_spacing + 3 + smooth_smooth_rod_size;
-x_rod_spacing = 30;
-x_carriage_width = 70;
+
+
+//extruder
 carriage_extruder_offset = 0;
+extruder_hole_spacing = 50; //doesn't work (yet)
 
 //motor vars
 motor_screw_spacing = 26; //26 for NEMA14, 31 for NEMA17
-motor_casing = 35; //38 for NEMA14, 45 for NEMA17
+motor_casing = 38; //38 for NEMA14, 45 for NEMA17
+motor_length = 28;
 
 //hardware
 threaded_rod_size = 6;
@@ -25,7 +25,11 @@ pulley_size = 11.5;
 idler_pulley_width = 8;
 belt_height = 2;
 
-
+//breakout vars
+end_height = motor_length + smooth_rod_size / 2; 
+x_rod_spacing = smooth_rod_size + pulley_size + belt_height * 2;
+yz_motor_distance = smooth_rod_size + bearing_size + small_screw_size;
+x_carriage_width = extruder_hole_spacing + small_screw_size * 3;
 
 //Comment out all of the lines in the following section to render the assembled machine. Uncomment one of them to export that part for printing.
 
@@ -131,8 +135,8 @@ module y_idler() difference() {
 
 	}
 	for(side = [1, -1]) translate([-3, side * (motor_casing / 2 - threaded_rod_size / 2), 5]) rotate([90, 0, 90]) {
-		cylinder(r = 3 * 7/12, h = threaded_rod_size * 2, center = true, $fn = 6);
-		translate([0, 0, threaded_rod_size]) cylinder(r = 3 * 7/6, h = 4, $fn = 6);
+		cylinder(r = small_screw_size * 7/12, h = threaded_rod_size * 2, center = true, $fn = 6);
+		translate([0, 0, threaded_rod_size]) cylinder(r = small_screw_size * 7/6, h = 4, $fn = 6);
 	}
 }
 
