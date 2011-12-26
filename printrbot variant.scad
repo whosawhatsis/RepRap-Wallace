@@ -255,7 +255,7 @@ module x_end(motor = 0) mirror([motor, 0, 0]) difference() {
 			}
 			square([motor_casing / 2 + rod_size, 3], center = true);
 			translate([(motor_casing / 4 + rod_size / 2), 0, 0]) circle(bearing_size / 2 - .5, $fn = 30);
-			translate([-(motor_casing / 4 + rod_size / 2), 0, 0]) circle(rod_nut_size / 2 - 2, $fn = 6);
+			translate([-(motor_casing / 4 + rod_size / 2), 0, 0]) circle(rod_nut_size * 6/14, $fn = 6);
 			translate([4 + rod_size / 2, bearing_size / 2 + rod_size / 2 + 3, 0]) {
 				square([motor_casing / 2 + rod_size + bearing_size + 8, rod_size / 2], center = true);
 				translate([-(motor_casing / 2 + rod_size + bearing_size + 8) / 2, .5, 0]) circle(rod_size / 4 + .5, $fn = 12);
