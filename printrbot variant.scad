@@ -25,7 +25,7 @@ idler_pulley_width = 10;
 //!for(side = [-1,1]) translate([0, side * motor_screw_spacing / 2, 0]) leadscrew_coupler();
 //!y_idler();
 //!for(x = [1, -1]) for(y = [1, -1]) translate([x * (pulley_size / 2 + 3), y * (pulley_size / 2 + 3), 0]) idler_pulley(true);
-//!for(x = [1, -1]) for(y = [1, -1]) translate([x * (rod_size * 2.5 + 1), y * (rod_size * 2.5 + 1), 0]) foot();
+//!for(x = [1, -1]) for(y = [1, -1]) translate([x * (rod_size * 1.5 + 2), y * (rod_size * 1.5 + 2), 0]) foot();
 
 
 
@@ -63,7 +63,7 @@ idler_pulley_width = 10;
 module foot() difference() {
 	linear_extrude(height = rod_size, convexity = 5) difference() {
 		minkowski() {
-			square(rod_size * 3, center = true);
+			square(rod_size + 2, center = true);
 			circle(rod_size, $fn = 16);
 		}
 		circle(rod_size / 2, $fn = 12);
