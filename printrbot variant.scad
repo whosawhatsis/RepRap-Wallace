@@ -279,9 +279,12 @@ module x_end(motor = 0) mirror([motor, 0, 0]) difference() {
 				cube([rod_size * 2, rod_size + 1, motor_casing / 2 + rod_size + bearing_size + 10], center = true);
 			}
 		}
-		rotate([90, 0, 0]) cylinder(r = 3 * 7/12, h = 100, center = true, $fn = 6);
+		rotate([90, 0, 0]) {
+			cylinder(r = 3 * 7/12, h = 100, center = true, $fn = 6);
+			translate([0, 0, bearing_size / 4 + .5]) cylinder(r = 3 * 7/6, h = 100, center = false, $fn = 6);
+		}
 	}
-	translate([-(motor_casing / 4 + rod_size / 2), 0, 5]) cylinder(r = rod_nut_size / 2, h = x_rod_spacing + 8 + rod_size, $fn = 6);
+	translate([-(motor_casing / 4 + rod_size / 2), 0, 5]) rotate(90) cylinder(r = rod_nut_size / 2, h = x_rod_spacing + 8 + rod_size, $fn = 6);
 	translate([(motor_casing / 4 + rod_size / 2), 0, 5]) %rotate(180 / 8) cylinder(r = rod_size * 13/24, h = 200, center = true, $fn = 8);
 }
 
