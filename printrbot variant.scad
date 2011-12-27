@@ -34,9 +34,9 @@ idler_pulley_width = 10;
 	translate([0, 0, -bearing_size]) rotate([0, 180, 0]) base_end();
 	for(end = [1, -1]) translate([0, end * motor_screw_spacing / 2 + 5, -bearing_size + bearing_size * sqrt(2) / 4]) rotate([-90, 0, 180]) y_bearing_retainer();
 	for(side = [0, 1]) mirror([0, side, 0]) translate([yz_motor_distance / 2 - bearing_size / 2, -motor_casing / 2 - rod_size * 2 - 10, -bearing_size + bearing_size * sqrt(2) / 4]) rotate([90, 0, 0]) bed_mount();
-	translate([-yz_motor_distance / 2 + rod_size - motor_casing / 4 - rod_size / 2, 0, 60 + (x_rod_spacing + 8 + rod_size) / 2]) rotate([0, 180, 0]) x_end(2);
+	translate([-yz_motor_distance / 2 + rod_size - motor_casing / 4 - rod_size / 2, 0, 60 + (x_rod_spacing + 8 + rod_size) / 2]) rotate([0, 180, 0]) x_end(0);
 	translate([140, 0, 60 + (x_rod_spacing + 8 + rod_size) / 2]) rotate([0, 180, 0]) {
-		x_end(0);
+		x_end(2);
 		translate([0, 8 + rod_size, 0]) rotate([90, 0, 0]) translate([0, (x_rod_spacing + 8 + rod_size) / 2, rod_size / 2 - 2 - bearing_size / 2 - 4 - idler_pulley_width - 1.5]) idler_pulley(true);
 	}
 	translate([40, rod_size + bearing_size / 2 + 1 - rod_size / 2 + 2, 60]) {
@@ -220,7 +220,7 @@ module x_carriage() difference() {
 	}
 }
 
-module x_end(motor = 0) mirror([motor, 0, 0]) difference() {
+module x_end(motor = 0) mirror([(motor == 0) ? 1 : 0, 0, 0]) difference() {
 	union() {
 		if(motor > 0) translate([-(motor_casing / 2 + rod_size + bearing_size + 8) / 2 - motor_casing, 8 + rod_size, 0]) rotate([90, 0, 0]) {
 			linear_extrude(height = 7) difference() {
