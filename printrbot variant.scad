@@ -13,6 +13,7 @@ x_carriage_width = 70;
 carriage_extruder_offset = 5;
 pulley_size = 20;
 idler_pulley_width = 10;
+gusset_size = 15;
 
 //Comment out all of the lines in the following section to render the assembled machine. Uncomment one of them to export that part for printing.
 
@@ -26,7 +27,7 @@ idler_pulley_width = 10;
 //!y_idler();
 //!for(x = [1, -1]) for(y = [1, -1]) translate([x * (pulley_size / 2 + 3), y * (pulley_size / 2 + 3), 0]) idler_pulley(true);
 //!for(x = [1, -1]) for(y = [1, -1]) translate([x * (rod_size * 1.5 + 2), y * (rod_size * 1.5 + 2), 0]) foot();
-
+//!for(side = [0, 1]) mirror([side, 0, 0]) translate([-rod_size * 2.5, 0, 0]) z_top_clamp();
 
 
 //The following section positions parts for rendering the assembled machine.
@@ -52,13 +53,32 @@ idler_pulley_width = 10;
 		for(side = [1, -1]) translate([5, side * (motor_casing / 2 - rod_size / 2), idler_pulley_width + 1.5 + rod_size]) rotate([180, 0, 0]) idler_pulley(true);
 	}
 	for(side = [0, 1]) mirror([0, side, 0]) translate([0, -motor_casing / 2 - rod_size * 2 - 10, -bearing_size - end_height + rod_size * 1.5]) rotate([90, 0, 0]) foot();
+	translate([-yz_motor_distance / 2, rod_size, 200 - end_height]) rotate([-90, 0, -90]) z_top_clamp(0);
+
+	
 
 
 
 
-
-
-
+module z_top_clamp() difference() {
+	union() {
+		linear_extrude(height = rod_size * 2 + gusset_size, convexity = 5) difference() {
+			union() {
+				circle(r = rod_size * 7/6, $fn = 6);
+				translate([0, -rod_size, 0]) square([rod_size * (1 + 7/12), rod_size * 2]);
+				translate([rod_size - rod_size * 7/12, rod_size / 2, rod_size]) square([rod_size * 7/6, rod_size / 2 + gusset_size]);
+			}
+		}
+		translate([rod_size, -rod_size - 1, rod_size]) rotate([-90, 0, 0]) cylinder(r = rod_size / cos(180 / 6), h = rod_size * 2 + gusset_size + 2, $fn = 6);
+	}
+	translate([rod_size, -rod_size - 2, rod_size]) rotate([-90, 0, 0]) cylinder(r = rod_size * 7/12, h = gusset_size + rod_size * 2 + 4, $fn = 6);
+	translate([rod_size, rod_size + gusset_size, rod_size * 2 + gusset_size]) rotate([45, 0, 0]) cube([rod_size * 2, gusset_size * sqrt(2), gusset_size * sqrt(2)], center = true);
+	translate([0, 0, -1]) linear_extrude(height = rod_size * 2 + gusset_size + 2, convexity = 5) {
+		circle(r = rod_size * 7/12, $fn = 6);
+		%translate([0, 0, -10]) cylinder(r = rod_size * 7/12, h = 160, $fn = 6);
+		translate([0, -rod_size / 2, 0]) square([gusset_size + rod_size * 2 + 1, rod_size]);
+	}
+}
 
 module foot() difference() {
 	linear_extrude(height = rod_size, convexity = 5) difference() {
@@ -148,7 +168,7 @@ module x_carriage() difference() {
 		linear_extrude(height = x_carriage_width, convexity = 5) difference() {
 			union() {
 				square([bearing_size + 8, x_rod_spacing], center = true);
-				#translate([0, -x_rod_spacing / 2 - bearing_size / 2 - 4, 0]) square([bearing_size / 2 + 4 + 15, x_rod_spacing / 2 + bearing_size / 2 + 4 - 2 - pulley_size / 2]);
+				translate([0, -x_rod_spacing / 2 - bearing_size / 2 - 4, 0]) square([bearing_size / 2 + 4 + 15, x_rod_spacing / 2 + bearing_size / 2 + 4 - 2 - pulley_size / 2]);
 				translate([0, -pulley_size / 2, 0]) {
 					square([bearing_size / 2 + 4 + 15, 8]);
 					translate([bearing_size / 2 + 4 + 15, 4, 0]) circle(4);
