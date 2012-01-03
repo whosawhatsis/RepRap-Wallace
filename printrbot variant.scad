@@ -53,7 +53,7 @@ gusset_size = 15;
 		for(side = [1, -1]) translate([5, side * (motor_casing / 2 - rod_size / 2), idler_pulley_width + 1.5 + rod_size]) rotate([180, 0, 0]) idler_pulley(true);
 	}
 	for(side = [0, 1]) mirror([0, side, 0]) translate([0, -motor_casing / 2 - rod_size * 2 - 10, -bearing_size - end_height + rod_size * 1.5]) rotate([90, 0, 0]) foot();
-	translate([-yz_motor_distance / 2, rod_size, 200 - end_height]) rotate([-90, 0, -90]) z_top_clamp(0);
+	translate([-yz_motor_distance / 2 + rod_size, 0, 210 - end_height]) rotate([180, 0, 90]) z_top_clamp(0);
 
 	
 
@@ -75,7 +75,7 @@ module z_top_clamp() difference() {
 	translate([rod_size, rod_size + gusset_size, rod_size * 2 + gusset_size]) rotate([45, 0, 0]) cube([rod_size * 2, gusset_size * sqrt(2), gusset_size * sqrt(2)], center = true);
 	translate([0, 0, -1]) linear_extrude(height = rod_size * 2 + gusset_size + 2, convexity = 5) {
 		circle(r = rod_size * 7/12, $fn = 6);
-		%translate([0, 0, -10]) cylinder(r = rod_size * 7/12, h = 160, $fn = 6);
+		%translate([rod_size, -10, rod_size]) rotate([-90, 0, 0]) cylinder(r = rod_size * 7/12, h = 160, $fn = 6);
 		translate([0, -rod_size / 2, 0]) square([gusset_size + rod_size * 2 + 1, rod_size]);
 	}
 }
