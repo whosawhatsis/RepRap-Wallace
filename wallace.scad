@@ -1,10 +1,18 @@
-rod_size = 6;
-rod_nut_size = 12; //12 for M6, 16 for M8
-bearing_size = 12.5; //12 for LM6UU, 15 for LM8UU,LM8SUU
-bearing_length = 20; //19 for LM6UU, 17 for LM8SUU, 24 for LM8UU
+
+// select which rod type you want to use. 0 -> M6, 1 -> M8
+rod_type = 0;
+// select which bearing type you want to use. 0 -> LM6UU, 1 -> LM8SUU, 2 -> LM8UU
+bearing_type = 0;
+//select which motor type you want to use. 0 -> NEMA14, 1 -> NEMA17
+motor_type = 0;
+
+rod_sizes = [6,8]; // M6, M8
+rod_nut_sizes = [12,16]; //M6 nut, M8 nut
+bearing_sizes = [12.5,15,15]; //LM6UU, LM8SU, LM8UU
+bearing_lengths = [20,17,24]; //LM6UU, LM8SU, LM8UU
+motor_screw_spacings = [26,31]; //Nema14, Nema18
+motor_casings = [38,45]; //Nema14, Nema18
 yz_motor_distance = 25;
-motor_screw_spacing = 26; //26 for NEMA14, 31 for NEMA17
-motor_casing = 38; //38 for NEMA14, 45 for NEMA17
 end_height = 40;
 bed_mount_height = 16;
 //x_rod_spacing = motor_screw_spacing + 3 + rod_size;
@@ -19,9 +27,6 @@ m3_nut_size = 6;
 m4_size = 4;
 motor_shaft_size = 5;
 
-// ratio for converting diameter to apothem radius
-da6 = (1 / cos(180 / 6)) / 2;
-da8 = (1 / cos(180 / 8)) / 2;
 
 //Comment out all of the lines in the following section to render the assembled machine. Uncomment one of them to export that part for printing.
 
@@ -64,10 +69,20 @@ da8 = (1 / cos(180 / 8)) / 2;
 	translate([-yz_motor_distance / 2 + rod_size, 0, 210 - end_height]) rotate([180, 0, 90]) z_top_clamp(0);
 
 	
+// INTERNAL Variables
+rod_size = rod_sizes[rod_type];
+rod_nut_size = rod_nut_sizes[rod_type];
+bearing_size = bearing_sizes[bearing_type]; 
+bearing_length = bearing_lengths[bearing_type]; 
+motor_screw_spacing = motor_screw_spacings[motor_type]; 
+motor_casing = motor_casings[motor_type]; 
+
+// ratio for converting diameter to apothem radius
+da6 = (1 / cos(180 / 6)) / 2;
+da8 = (1 / cos(180 / 8)) / 2;
 
 
-
-
+// all MODULES 
 module z_top_clamp() difference() {
 	union() {
 		linear_extrude(height = rod_size * 2 + gusset_size, convexity = 5) difference() {
