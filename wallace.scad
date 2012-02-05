@@ -20,8 +20,8 @@ m4_size = 4;
 motor_shaft_size = 5;
 
 // ratio for converting diameter to apothem
-da6 = (1 / cos(180 / 6)) / 2;
-da8 = (1 / cos(180 / 8)) / 2;
+da6 = 1 / cos(180 / 6) / 2;
+da8 = 1 / cos(180 / 8) / 2;
 
 //Comment out all of the lines in the following section to render the assembled machine. Uncomment one of them to export that part for printing.
 
@@ -163,8 +163,8 @@ module leadscrew_coupler() difference() {
 	}
 	translate([0, 0, 3]) rotate([-90, 0, 90]) {
 		cylinder(r = m3_size * da6, h = motor_screw_spacing / 2 + 1);
-		%rotate(90) cylinder(r = 6 / 2, h = 5.5, $fn = 6);
-		translate([0, 0, 12]) cylinder(r = m3_nut_size * da6, h = motor_screw_spacing / 2);
+		rotate(90) cylinder(r = m3_nut_size / 2, h = 5.5, $fn = 6);
+		translate([0, 0, 12]) cylinder(r = m3_size * da6 * 2, h = motor_screw_spacing / 2);
 		translate([-2.85, -3, 0]) cube([5.5, 10, 5.7]);
 	}
 	translate([0, 0, 10]) cylinder(r = rod_nut_size / 2, h = rod_nut_size + 1, $fn = 6);
@@ -233,7 +233,7 @@ module x_carriage() difference() {
 	// screw holes
 	translate([bearing_size / 2 + 4 + 10, 5 - pulley_size / 2, bearing_length / 2 + 2]) rotate([90, 0, 0]) {
 		cylinder(r = m3_size * da6, h = x_rod_spacing + bearing_size + 10, center = true, $fn = 6);
-		rotate([180, 0, 0]) cylinder(r = m3_nut_size * da6, h = x_rod_spacing + bearing_size + 10, center = false, $fn = 6);
+		rotate([180, 0, 0]) cylinder(r = m3_size * da6 * 2, h = x_rod_spacing + bearing_size + 10, center = false, $fn = 6);
 		translate([0, 0, x_rod_spacing / 2 + bearing_size / 2 + 6 - pulley_size / 2]) cylinder(r = m3_nut_size * da6, h = x_rod_spacing + bearing_size + 10, center = false, $fn = 6);
 	}
 	//#for(side = [1, -1]) translate([-bearing_size / 2 - 4 - 14, 0, x_carriage_width / 2 + carriage_extruder_offset + side * 25]) rotate([90, 0, 0]) cylinder(r = 4.1, h = x_rod_spacing - 10, center = true, $fn = 6);
