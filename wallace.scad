@@ -10,10 +10,10 @@ rod_sizes = [6,8]; // M6, M8
 rod_nut_sizes = [12,16]; //M6 nut, M8 nut
 bearing_sizes = [12.5,15,15]; //LM6UU, LM8SU, LM8UU
 bearing_lengths = [20,17,24]; //LM6UU, LM8SU, LM8UU
-motor_screw_spacings = [26,31]; //Nema14, Nema18
-motor_casings = [38,45]; //Nema14, Nema18
+motor_screw_spacings = [26,31]; //Nema14, Nema17
+motor_casings = [38,45]; //Nema14, Nema17
+end_heights = [40,50]; // Nema14, Nema17
 yz_motor_distance = 25;
-end_height = 40;
 bed_mount_height = 16;
 //x_rod_spacing = motor_screw_spacing + 3 + rod_size;
 x_rod_spacing = 30;
@@ -76,6 +76,7 @@ bearing_size = bearing_sizes[bearing_type];
 bearing_length = bearing_lengths[bearing_type]; 
 motor_screw_spacing = motor_screw_spacings[motor_type]; 
 motor_casing = motor_casings[motor_type]; 
+end_height = end_heights[end_height];
 
 // ratio for converting diameter to apothem radius
 da6 = (1 / cos(180 / 6)) / 2;
