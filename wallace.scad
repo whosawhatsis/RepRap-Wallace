@@ -20,8 +20,8 @@ m4_size = 4;
 motor_shaft_size = 5;
 
 // ratio for converting diameter to apothem radius
-da6 = (1 / cos(180 / 6))/2;
-da8 = (1 / cos(180 / 8))/2;
+da6 = (1 / cos(180 / 6)) / 2;
+da8 = (1 / cos(180 / 8)) / 2;
 
 //Comment out all of the lines in the following section to render the assembled machine. Uncomment one of them to export that part for printing.
 
