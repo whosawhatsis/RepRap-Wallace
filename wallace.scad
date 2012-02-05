@@ -33,9 +33,13 @@ use <z_top_clamp.scad>
 //The following section positions parts for rendering the assembled machine.
 
 	translate([0, 0, -bearing_size]) rotate([0, 180, 0]) base_end();
+	translate([121, 0, -bearing_size]) rotate([0, 180, 180]) base_end();
 	for(end = [1, -1]) translate([0, end * motor_screw_spacing / 2 + 5, -bearing_size + bearing_size * sqrt(2) / 4]) rotate([-90, 0, 180]) y_bearing_retainer();
+	for(end = [1, -1]) translate([121, end * motor_screw_spacing / 2 - 5, -bearing_size + bearing_size * sqrt(2) / 4]) rotate([-90, 0, 0]) y_bearing_retainer();
 	for(side = [0, 1]) mirror([0, side, 0]) translate([yz_motor_distance / 2 - bearing_size / 2, -motor_casing / 2 - rod_size * 2 - 10, -bearing_size + bearing_size * sqrt(2) / 4]) rotate([90, 0, 0]) bed_mount();
+	for(side = [0, 1]) mirror([0, side, 0]) translate([(yz_motor_distance / 2 - bearing_size / 2)+109, -motor_casing / 2 - rod_size * 2 - 10, -bearing_size + bearing_size * sqrt(2) / 4]) rotate([90, 0, 0]) bed_mount();
 	translate([-yz_motor_distance / 2 + rod_size - motor_casing / 4 - rod_size / 2, 0, 60 + (x_rod_spacing + 8 + rod_size) / 2]) rotate([0, 180, 0]) x_end(0);
+	translate([-yz_motor_distance / 2 + rod_size - motor_casing / 4 - rod_size / 2, 8 + rod_size, 15 + (x_rod_spacing + 8 + rod_size) / 2]) rotate([90, 0, 0]) translate([0, (x_rod_spacing + 8 + rod_size) / 2, rod_size / 2 - 2 - bearing_size / 2 - 4 - idler_pulley_width - 1.5]) idler_pulley(true);
 	translate([140, 0, 60 + (x_rod_spacing + 8 + rod_size) / 2]) rotate([0, 180, 0]) {
 		x_end(2);
 		translate([0, 8 + rod_size, 0]) rotate([90, 0, 0]) translate([0, (x_rod_spacing + 8 + rod_size) / 2, rod_size / 2 - 2 - bearing_size / 2 - 4 - idler_pulley_width - 1.5]) idler_pulley(true);
@@ -48,11 +52,13 @@ use <z_top_clamp.scad>
 		}
 	}
 	translate([-yz_motor_distance / 2 - motor_casing / 2, 0, -bearing_size / 2]) leadscrew_coupler();
+	translate([185-yz_motor_distance / 2 - motor_casing / 2, 0, -bearing_size / 2]) leadscrew_coupler();
 	translate([60, 0, -bearing_size - rod_size / 2 - bearing_size / 2]) {
 		rotate([0, 90, 0]) y_idler();
 		for(side = [1, -1]) translate([5, side * (motor_casing / 2 - rod_size / 2), idler_pulley_width + 1.5 + rod_size]) rotate([180, 0, 0]) idler_pulley(true);
 	}
 	for(side = [0, 1]) mirror([0, side, 0]) translate([0, -motor_casing / 2 - rod_size * 2 - 10, -bearing_size - end_height + rod_size * 1.5]) rotate([90, 0, 0]) foot();
+	for(side = [0, 1]) mirror([0, side, 0]) translate([120, -motor_casing / 2 - rod_size * 2 - 10, -bearing_size - end_height + rod_size * 1.5]) rotate([90, 0, 0]) foot();
 	translate([-yz_motor_distance / 2 + rod_size, 0, 210 - end_height]) rotate([180, 0, 90]) z_top_clamp(0);
-
+	translate([140-(yz_motor_distance / 2 ), 0, 210 - end_height]) rotate([180, 0, 270])mirror() z_top_clamp(0);
 	
