@@ -1,11 +1,11 @@
 rod_size = 6;
-rod_nut_size = 12; //12 for M6, 16 for M8
-bearing_size = 12.5; //12 for LM6UU, 15 for LM8UU,LM8SUU
-bearing_length = 20; //19 for LM6UU, 17 for LM8SUU, 24 for LM8UU
+rod_nut_size = 12; //12 for M6, 15 for M8
+bearing_size = 12.5; //12.5 for LM6UU, 15.5 for LM8UU,LM8SUU
+bearing_length = 19.5; //19.5 for LM6UU, 17.5 for LM8SUU, 24.5 for LM8UU
 yz_motor_distance = 25;
 motor_screw_spacing = 26; //26 for NEMA14, 31 for NEMA17
 motor_casing = 38; //38 for NEMA14, 45 for NEMA17
-end_height = 40;
+end_height = 40; //measure the height of your motor casing and add 4mm. Suggestion: 40 for NEMA14, 55 for NEMA17
 bed_mount_height = 16;
 //x_rod_spacing = motor_screw_spacing + 3 + rod_size;
 x_rod_spacing = 30;
@@ -51,7 +51,7 @@ da8 = 1 / cos(180 / 8) / 2;
 	translate([40, rod_size + bearing_size / 2 + 1 - rod_size / 2 + 2, 60]) {
 		rotate([90, 0, 90]) x_carriage();
 		translate([x_carriage_width / 2 + carriage_extruder_offset, -14 - bearing_size / 2 - 4, x_rod_spacing / 2 + bearing_size / 2 + 4]) {
-			rotate([90, 0, 180]) translate([10.57, 30.3, -14]) import_stl("gregs/gregs_accessible_wade-wildseyed_mount.stl", convexity = 5);
+			rotate([90, 0, 180]) translate([10.57, 30.3, -14]) import("gregs/gregs_accessible_wade-wildseyed_mount.stl", convexity = 5);
 			%rotate(180 / 8) cylinder(r = 2, h = 150, center = true, $fn = 8);
 		}
 	}
