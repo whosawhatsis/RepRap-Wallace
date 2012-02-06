@@ -23,7 +23,7 @@ motor_shaft_size = 5;
 da6 = 1 / cos(180 / 6) / 2;
 da8 = 1 / cos(180 / 8) / 2;
 
-//Comment out all of the lines in the following section to render the assembled machine. Uncomment one of them to export that part for printing.
+//Comment out all of the lines in the following section to render the assembled machine. Uncomment one of them to export that part for printing. You can also use the individual files to export each part.
 
 //!base_end();
 //!for(b = [0:1]) mirror([0, b, 0]) for(a = [-1,1]) translate([a * bearing_size / 4, bearing_size - (bearing_size * 2/3) * a, 0]) rotate(90 + 90 * a) y_bearing_retainer();
@@ -165,7 +165,7 @@ module leadscrew_coupler() difference() {
 		cylinder(r = m3_size * da6, h = motor_screw_spacing / 2 + 1);
 		%rotate(90) cylinder(r = m3_nut_size / 2, h = 5.5, $fn = 6);
 		translate([0, 0, 12]) cylinder(r = m3_size * da6 * 2, h = motor_screw_spacing / 2);
-		#translate([-m3_nut_size / da6 / 4, -m3_nut_size / 2, 0]) cube([m3_nut_size / da6 / 2, m3_nut_size + 1, 5.7]);
+		translate([-m3_nut_size / da6 / 4, -m3_nut_size / 2, 0]) cube([m3_nut_size / da6 / 2, m3_nut_size + 1, 5.7]);
 	}
 	translate([0, 0, 10]) cylinder(r = rod_nut_size / 2, h = rod_nut_size + 1, $fn = 6);
 	//translate([0, 0, -1]) cube(100);
