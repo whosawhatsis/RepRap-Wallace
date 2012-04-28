@@ -1,0 +1,3 @@
+include <wallace.scad>;
+
+!platform();
