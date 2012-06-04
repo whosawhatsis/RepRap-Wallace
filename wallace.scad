@@ -248,7 +248,60 @@ module leadscrew_coupler() difference() {
 	}
 }
 
-module x_carriage() difference() {
+fan = true;
+fan_hole_separation=32;
+fan_support_block=9;
+fan_trap_width=3;
+fan_support_thickness=9;
+fan_diameter=36;
+fan_hole_height=4;
+
+
+module fan_mount() 
+{
+	difference()
+	{
+		 union ()
+		{
+			translate([0,0,fan_support_block/4])
+			cube([fan_hole_separation+fan_support_block,fan_support_thickness,fan_support_block/2],center=true);
+			
+			for (i=[-1,1])
+			translate([i*fan_hole_separation/2,0,fan_support_block/2])
+			rotate([90,0,0])
+			cylinder(r=fan_support_block/2,h=fan_support_block,center=true,$fn=20);
+			
+			translate([0,0,fan_support_block/2])
+			cube([fan_hole_separation,fan_support_thickness,fan_support_block],center=true);
+		//	translate([0,6,5/2])
+		//	cube([fan_hole_separation+fan_support_block,fan_support_thickness+1,5],center=true);
+		}
+		for(i=[-1,1])
+		{
+			translate([i*fan_hole_separation/2,0,fan_hole_height])
+			{
+				rotate([90,0,0])
+				rotate(180/8)
+				cylinder(r=m3_size * da6,h=fan_support_thickness+20,center=true,$fn=8);
+				translate([0,0,0])
+				rotate([90,0,0])
+				rotate([0,0,180/6])
+				cylinder(r=m3_nut_size * da6,h=fan_trap_width,center=true,$fn=6);
+				color([1,0,0])
+				translate([0,0,(fan_hole_height+1)/2])
+				cube([(m3_nut_size)*cos(30),fan_trap_width,fan_hole_height+1],center=true);
+			}
+		}
+		translate([0,0,fan_hole_separation/2+fan_hole_height])
+		rotate([-90,0,0])
+		cylinder(r=fan_diameter/2,h=fan_support_thickness+2,center=true);
+	}
+}
+
+
+module x_carriage() union(){
+	if(fan) translate(v = [-30,15, 4.55]) rotate ([90,0,0])fan_mount();
+	difference() {
 	intersection() {
 		linear_extrude(height = x_carriage_width, convexity = 5) difference() {
 			union() {
@@ -325,6 +378,12 @@ module x_carriage() difference() {
 		}
 		for(side = [1, -1]) translate([0, side * 25, 0]) circle(m4_size * da6, $fn = 6);
 	}
+	if(fan)	translate([-14,11,0])	rotate(180/8) {	
+		cylinder(r=m3_size * da6,h=fan_support_thickness+20,center=true,$fn=8);
+		cylinder(r=m3_nut_size * da6,h=fan_support_thickness+4,center=true,$fn=6);
+} // screw hole and nut clearance
+     }
+ 
 }
 
 module x_end(motor = 0) mirror([(motor == 0) ? 1 : 0, 0, 0]) difference() {
